@@ -1,4 +1,4 @@
-name: CD
+name: CD - Deploy to Server
 
 on:
   push:
@@ -8,11 +8,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
 
-      - name: Deploy Application
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH for deployment
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy application
         run: |
-          echo "Deploying application..."
-          # Here, you can add deployment commands (e.g., SSH into server, pull latest changes, restart FastAPI service)
+          ssh -o StrictHostKeyChecking=no username@your-server-ip "cd /path/to/your/project && git pull origin main && sudo systemctl restart nginx"
