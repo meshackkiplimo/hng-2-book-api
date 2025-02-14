@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 
 from api.db.schemas import Book, Genre, InMemoryDB
 
-router = APIRouter(prefix="/books", tags=["books"])
+router = APIRouter()
 
 db = InMemoryDB()
 db.books = {
