@@ -1,38 +1,28 @@
-name: Deploy to Nginx Server
-
+name: CD - Deploy to Azure VM
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Deploy files to server
-        run: |
-          # Use SCP with password (for example, using expect to handle password input)
-          sudo apt-get install -y expect
-          expect -c "
-            spawn scp -r ./ user@your_server_ip:/path/to/deploy/directory/
-            expect \"*password:\"
-            send \"your_password\r\"
-            expect eof
-          "
-
-      - name: Restart Nginx and FastAPI
-        run: |
-          # SSH into server to restart services
-          ssh user@your_server_ip << 'EOF'
-            cd /path/to/deploy/directory
-            # Pull latest code if necessary (if using git for version control)
-            git pull origin main
-            # Restart FastAPI with systemd or any other method
-            sudo systemctl restart fastapi
-            # Restart Nginx to apply any changes
-            sudo systemctl restart nginx
-          EOF
+      - name: Deploy to Azure VM
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+            host: ${{ secrets.AZURE_HOST }}
+            username: ${{ secrets._AZURE_USER }}
+            key: ${{ secrets.AWS_PRIVATE_KEY }}
+            script: |
+                set -e
+                cd fastapi-app || { echo "Directory not found"; exit 1; }
+                git reset --hard
+                git pull origin main
+                source venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                sudo systemctl daemon-reload
+                sudo systemctl restart fastapi
