@@ -121,6 +121,7 @@ pytest
 ```
 ## Server Deployment
 - AWS
+- AZURE
 
 
 ## Error Handling
