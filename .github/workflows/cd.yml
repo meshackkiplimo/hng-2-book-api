@@ -14,8 +14,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.8
         with:
             host: ${{ secrets.AZURE_HOST }}
-            username: ${{ secrets._AZURE_USER }}
-            key: ${{ secrets.AWS_PRIVATE_KEY }}
+            username: ${{ secrets.AZURE_USER }}
+            key: ${{ secrets.AZURE_PRIVATE_KEY }}
             script: |
                 set -e
                 cd fastapi-app || { echo "Directory not found"; exit 1; }
