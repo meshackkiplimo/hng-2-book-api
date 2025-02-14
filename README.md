@@ -120,6 +120,7 @@ Available genres:
 pytest
 ```
 ## Server Deployment
+- AWS
 
 
 ## Error Handling
