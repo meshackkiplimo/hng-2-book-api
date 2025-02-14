@@ -13,14 +13,13 @@ jobs:
       - name: Deploy to Azure VM
         uses: appleboy/ssh-action@v0.1.8
         with:
-            host: ${{ secrets.AZURE_HOST }}
-            username: ${{ secrets.AZURE_USER }}
-            key: ${{ secrets.AZURE_PRIVATE_KEY }}
-            script: |
-             
-                cd hng-2-book-api
-                git stash
-                git pull origin main
-                source venv/bin/activate
-                pip install -r requirements.txt
-                sudo systemctl restart fastapi
+          host: ${{ secrets.AZURE_HOST }}
+          username: ${{ secrets.AZURE_USER }}
+          key: ${{ secrets.AZURE_PRIVATE_KEY }}
+          script: |
+            cd hng-2-book-api
+            git stash
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            sudo systemctl restart fastapi
