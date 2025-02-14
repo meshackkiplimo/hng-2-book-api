@@ -17,12 +17,10 @@ jobs:
             username: ${{ secrets.AZURE_USER }}
             key: ${{ secrets.AZURE_PRIVATE_KEY }}
             script: |
-                set -e
-                cd fastapi-app || { echo "Directory not found"; exit 1; }
-                git reset --hard
+             
+                cd hng-2-book-api
+                git stash
                 git pull origin main
                 source venv/bin/activate
-                pip install --upgrade pip
                 pip install -r requirements.txt
-                sudo systemctl daemon-reload
                 sudo systemctl restart fastapi
