@@ -120,7 +120,7 @@ Available genres:
 pytest
 ```
 ## Server Deployment
-- AWS
+
 - AZURE
 
 
